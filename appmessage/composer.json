@@ -7,5 +7,10 @@
             "email": "charan@contourgroupinc.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+      "psr-4": {
+          "Message\\": "src/"
+      }
+    }
 }
