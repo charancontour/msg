@@ -1,0 +1,11 @@
+{
+    "name": "charan/appmessage",
+    "description": "messaging through the package",
+    "authors": [
+        {
+            "name": "charan",
+            "email": "charan@contourgroupinc.com"
+        }
+    ],
+    "require": {}
+}
