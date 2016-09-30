@@ -1,12 +1,15 @@
 {
     "name": "charan/appmessage",
     "description": "messaging through the package",
+    "keywords": ["github", "laravel"],
+    "license": "contour",
     "authors": [
         {
             "name": "charan",
             "email": "charan@contourgroupinc.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
       "php": ">=5.4.0",
       "illuminate/support": "5.0.*"
