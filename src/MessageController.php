@@ -20,7 +20,7 @@ class MessageController extends Controller {
 	public function index()
 	{
 		$notifications = DB::table($this->table)
-											->where("receiver_id","=",292)
+											->where("receiver_id","=",Auth::user()->id)
 											->where('read_status',"=",0)
 											->get();
 		return json_encode($notifications);
@@ -31,12 +31,12 @@ class MessageController extends Controller {
 		$location_id = $input["locationid"];
 		$msg_text  = $input['message_text'];
 		if($location_id != 0){
-			$users =  User::where('id','!=',1)
+			$users =  User::where('id','!=',Auth::user()->id)
 											->where('location_id',$location_id)
 											->get();
 		}
 		else{
-			$users =  User::where('id','!=',1)
+			$users =  User::where('id','!=',Auth::user()->id)
 											->get();
 		}
 
@@ -66,7 +66,7 @@ class MessageController extends Controller {
 	}
 	public function readmsg($id)
 	{
-		$msg = DB::tabel($this->table)
+		$msg = DB::table($this->table)
 								->where('id','=',$id)
 								->update(['read_status'=>1,'updated_at'=>date('Y-m-d H:i:s')]);
 		$msg->read_status = 1;
