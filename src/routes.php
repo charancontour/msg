@@ -1,9 +1,8 @@
 <?php
-Route::get("broadcastmessage","Message\MessageController@broadcaststore");
+Route::post("broadcastmessage","Message\MessageController@broadcaststore");
 Route::get("readmsg/{id}","Message\MessageController@readmsg");
-Route::get("index",function(){
-  return config('message.table');
-});
-Route::get('testcase',function(){
-  return "Hero";
+Route::get("emailincompleteusercourses","Message\MessageController@emailincompleteusercourses");
+Route::get("notifications","Message\MessageController@index");
+Route::get('loadadminview',function(){
+  return view('vendor.message.admin');
 });
