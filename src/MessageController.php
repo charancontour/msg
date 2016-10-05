@@ -8,6 +8,9 @@ use App\User;
 use Message\Message;
 use Auth;
 use DB;
+use Mail;
+use Queue;
+use Log;
 
 class MessageController extends Controller {
 
@@ -76,10 +79,11 @@ class MessageController extends Controller {
 	public function emailincompleteusercourses()
 	{
 		$users = User::all();
-		$efront_user_ids = array();
-		$emails = array();
+		$efront_user_ids = [];
+
 		foreach ($users as $user) {
-			$efont_user_ids[] = $user->$efront_user_id;
+			if($user->efront_user_id != 0)
+			$efront_user_ids[] = $user->efront_user_id;
 		}
 		$efront_user_ids = implode(",",$efront_user_ids);
 
@@ -90,6 +94,7 @@ class MessageController extends Controller {
 																	 and c.id = utc.courses_id
 																	 and utc.status != 'completed'
 																	 ORDER BY user_id ASC"));
+
 
 		$user_courses = [];
 		foreach ($incomplete_courses as $course) {
@@ -106,18 +111,55 @@ class MessageController extends Controller {
 			}
 		}
 
-		Mail::queue('emails.welcome', $data, function ($message) {
-    //
-		});
-		$result = true;
-		if($result){
-			\Session::flash('flash_message','Message broadcasted to all users successfully.');
+		foreach ($user_courses as $user) {
+			// Mail::queue('vendor.message.emailincomplete', $user , function ($message) use($user) {
+	    // 	 $message->to($user['email'], $user['name']." ".$user['surname'])->subject('About Incomplete Courses!!');
+			// });
+			Queue::push(new SendEmail($user));
 		}
-		else{
-			\Session::flash('flash_message','Message couldnot be broadcasted, please try again later');
-		}
+
+		\Session::flash('flash_message','Message broadcasted to all users  with Incomplete Courses successfully.');
+
 		return redirect()->back();
 
+	}
+
+	public function testmail()
+	{
+
+		$user = array(
+			'email'=>"charan.ms.teja@gmail.com",
+			'name'=>"charan",
+			'surname' => "teja",
+			'courses' => array("eat","sleep")
+		);
+		// dd($user);
+		// $handle = new SendEmail($user);
+		// $handle->handle();
+
+		Queue::push(new SendEmail($user));
+		// Mail::queue('vendor.message.emailincomplete', $user , function ($message) use($user) {
+		// 	 $message->to($user['email'], $user['name']." ".$user['surname'])->subject('About Incomplete Courses!!');
+		// });
+		// Mail::send('vendor.message.testmail', [] , function ($message) {
+		// 	 $message->to('awakelanka@gmail.com', "charan teja")->subject('About Incomplete Courses!!');
+		// });
+
+		// Queue::push(function($job) use($user){
+		// 	Log::info("HI Test Mail");
+		// 	// Mail::raw('vendor.message.emailincomplete', $user , function ($message) use($user) {
+		// 	// 	 $message->to($user['email'], $user['name']." ".$user['surname'])->subject('About Incomplete Courses!!');
+		// 	// });
+		// 	Mail::raw('text',[],function($message){
+		// 		$message->to('charan.ms.teja@gmail.com','charan')->subject('About Incomplete courses');
+		// 	});
+		// 	$job->delete();
+		// });
+		// Log::info("start");
+		// Mail::later(5,'vendor.message.testmail',[],function($message){
+		// 	$message->to('charan.ms.teja@gmail.com','charan teja')->subject("HI");
+		// });
+		// Log::info("end");
 	}
 
 }

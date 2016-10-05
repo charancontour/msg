@@ -6,3 +6,6 @@ Route::get("notifications","Message\MessageController@index");
 Route::get('loadadminview',function(){
   return view('vendor.message.admin');
 });
+
+
+Route::get("testmail","Message\MessageController@testmail");

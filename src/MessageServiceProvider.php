@@ -14,6 +14,8 @@ class MessageServiceProvider extends ServiceProvider {
 		//
 		$this->publishes([__DIR__.'/config/message.php' => config_path('message.php')]);
 		$this->publishes([__DIR__.'/views/admin.blade.php' => base_path('resources/views/vendor/message/admin.blade.php')]);
+		$this->publishes([__DIR__.'/views/emailincomplete.blade.php' => base_path('resources/views/vendor/message/emailincomplete.blade.php')]);
+		
 	}
 
 	/**

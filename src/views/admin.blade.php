@@ -60,6 +60,6 @@
 			</div>
 		</div>
 	</div>
-		<a href="emailincompleteusercourses" ><button type="submit" class="btn btn-primary">BroadCast</button></a>
+		<a href="emailincompleteusercourses" ><button type="submit" class="btn btn-primary">Email users with incomplete courses</button></a>
 </div>
 @endsection
