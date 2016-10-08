@@ -18,11 +18,11 @@ class CreateMessagesTable extends Migration {
 			$table->integer('sender_id')->unsigned();
 			$table->string('receiver')->unsigned();
 			$table->text('message_text');
-			$table->integer('read_status',1);
+			$table->tinyInteger('read_status');
 			$table->timestamps();
 			$table->foreign('sender_id')->references('id')->on('users');
 			$table->foreign('receiver_id')->references('id')->on('users');
-			
+
 		});
 	}
 
