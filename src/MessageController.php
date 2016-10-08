@@ -112,9 +112,6 @@ class MessageController extends Controller {
 		}
 
 		foreach ($user_courses as $user) {
-			// Mail::queue('vendor.message.emailincomplete', $user , function ($message) use($user) {
-	    // 	 $message->to($user['email'], $user['name']." ".$user['surname'])->subject('About Incomplete Courses!!');
-			// });
 			Queue::push(new SendEmail($user));
 		}
 
@@ -126,40 +123,13 @@ class MessageController extends Controller {
 
 	public function testmail()
 	{
-
 		$user = array(
 			'email'=>"charan.ms.teja@gmail.com",
 			'name'=>"charan",
 			'surname' => "teja",
 			'courses' => array("eat","sleep")
 		);
-		// dd($user);
-		// $handle = new SendEmail($user);
-		// $handle->handle();
-
 		Queue::push(new SendEmail($user));
-		// Mail::queue('vendor.message.emailincomplete', $user , function ($message) use($user) {
-		// 	 $message->to($user['email'], $user['name']." ".$user['surname'])->subject('About Incomplete Courses!!');
-		// });
-		// Mail::send('vendor.message.testmail', [] , function ($message) {
-		// 	 $message->to('awakelanka@gmail.com', "charan teja")->subject('About Incomplete Courses!!');
-		// });
-
-		// Queue::push(function($job) use($user){
-		// 	Log::info("HI Test Mail");
-		// 	// Mail::raw('vendor.message.emailincomplete', $user , function ($message) use($user) {
-		// 	// 	 $message->to($user['email'], $user['name']." ".$user['surname'])->subject('About Incomplete Courses!!');
-		// 	// });
-		// 	Mail::raw('text',[],function($message){
-		// 		$message->to('charan.ms.teja@gmail.com','charan')->subject('About Incomplete courses');
-		// 	});
-		// 	$job->delete();
-		// });
-		// Log::info("start");
-		// Mail::later(5,'vendor.message.testmail',[],function($message){
-		// 	$message->to('charan.ms.teja@gmail.com','charan teja')->subject("HI");
-		// });
-		// Log::info("end");
 	}
 
 }
